@@ -40,16 +40,6 @@
       margin-right: 10px;
     }
 
-    .imgJudge {
-      position: fixed;
-      width: 70%;
-      margin: 0px;
-      padding: 0px;
-      top: 0px;
-      left:15%;
-      z-index: 2;
-  }
-
     .displayInstr {
       height: 130px;
     }
@@ -81,46 +71,46 @@
 
   // female stimuli
   var US_highAtt_fem = [
-  "Stim_selected/Fem_Att_1_high.jpg", 
-  "Stim_selected/Fem_Att_2_high.jpg"
+  "Stim_selected/female_faces/Fem_Att_1_high.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_high.jpg"
   ];
   
   var US_medAtt_fem = [
-  "Stim_selected/Fem_Att_1_med.jpg", 
-  "Stim_selected/Fem_Att_2_med.jpg"
+  "Stim_selected/female_faces/Fem_Att_1_med.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_med.jpg"
   ];
 
   var US_lowAtt_fem = [
-  "Stim_selected/Fem_Att_1_low.jpg", 
-  "Stim_selected/Fem_Att_2_low.jpg"
+  "Stim_selected/female_faces/Fem_Att_1_low.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_low.jpg"
   ];
 
   // male stimuli
   var US_highAtt_male = [
-  "Stim_selected/Male_Att_1_high.jpg", 
-  "Stim_selected/Male_Att_2_high.jpg"
+  "Stim_selected/male_faces/Male_Att_1_high.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_high.jpg"
   ];
   
   var US_medAtt_male = [
-  "Stim_selected/Male_Att_1_med.jpg", 
-  "Stim_selected/Male_Att_2_med.jpg"
+  "Stim_selected/male_faces/Male_Att_1_med.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_med.jpg"
   ];
 
   var US_lowAtt_male = [
-  "Stim_selected/Male_Att_1_low.jpg", 
-  "Stim_selected/Male_Att_2_low.jpg"
+  "Stim_selected/male_faces/Male_Att_1_low.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_low.jpg"
   ];
 
   var CS_Neut_fem = [
-  "Stim_selected/Fem_Neut_1.jpg", 
-  "Stim_selected/Fem_Neut_2.jpg", 
-  "Stim_selected/Fem_Neut_3.jpg"
+  "Stim_selected/female_faces/Fem_Neut_1.jpg", 
+  "Stim_selected/female_faces/Fem_Neut_2.jpg", 
+  "Stim_selected/female_faces/Fem_Neut_3.jpg"
   ];
 
   var CS_Neut_male = [
-  "Stim_selected/Male_Neut_1.jpg", 
-  "Stim_selected/Male_Neut_2.jpg", 
-  "Stim_selected/Male_Neut_3.jpg"
+  "Stim_selected/male_faces/Male_Neut_1.jpg", 
+  "Stim_selected/male_faces/Male_Neut_2.jpg", 
+  "Stim_selected/male_faces/Male_Neut_3.jpg"
   ];
 
    // Randomly picking female faces and creating a list
@@ -146,16 +136,16 @@
   var CS = undefined;
   var US = undefined;
 
-  switch (gender_stim) {
-    case "male":
-      {CS = CS_Neut_male;
-      US  = US_male};
-      break;
-    case "female":
-      {CS = CS_Neut_fem;
-      US  = US_fem};
-      break;
-  }
+switch (gender_stim) {
+  case "male":
+    {CS = CS_Neut_male;
+    US  = US_male};
+    break;
+  case "female":
+    {CS = CS_Neut_fem;
+    US  = US_fem};
+    break;
+}
 
   //var US = jsPsych.randomization.sampleWithoutReplacement([US_fem, US_male], 1)[0];
   //US_display = US.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
@@ -183,23 +173,27 @@
   /* PAIRING PROCEDURE */
   // We create a variable coding for the pairing Bob/John with attractive/unattractive faces
   // var pairing_cond = jsPsych.randomization.sampleWithoutReplacement(["Bob_att", "Bob_unatt"], 1)[0];
-// /*
+/*
   // generate US-CS parings
   CS.map(function (e) { stims.push({ CS: e }) });
   stims = duplicateElements(stims, numOfUS);
 
   // randomly assign pos or neg US to each CS
-  // var US = [];
-  // var USCSpairing = CS + USvalence[0];
+  var US = [];
+  var USCSpairing = CS + USvalence[0];
  
-  // USvalence = duplicateElements(USvalence, CS.length / 2);
-  // USvalence.map(function (e) {
-  //   if (e == "neg") US.push(_.sampleSize(USneg, numOfUS));
-  //   if (e == "pos") US.push(_.sampleSize(USpos, numOfUS));
-  // });
-// */
+  USvalence = duplicateElements(USvalence, CS.length / 2);
+  USvalence.map(function (e) {
+    if (e == "neg") US.push(_.sampleSize(USneg, numOfUS));
+    if (e == "pos") US.push(_.sampleSize(USpos, numOfUS));
+  });
+*/
 
+  US = _.flattenDeep(US);
   stims.map(function (e, i) { e.US = US[i] });
+
+  CS = _.flattenDeep(CS);
+  stims.map(function (e, i) { e.CS = CS[i] });
 
   var USCSpairing = CS + US;
 
@@ -331,135 +325,43 @@
   };
 
 // Judgments
-  
-  // Changing the directory to have the good pictures
-  CSback = _.replace(CS, 'Stim_selected', 'Stim_background');
-  preloadimages.push(CSback);
-
-  //CSback.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
 
   var scaleAgressivity = ["0</br>Not agressive at all", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100</br>Totally aggressive"];
   var scaleTrustworthiness = ["0</br>Not trustworthy at all", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100</br>Totally trustworthy"];
   var scaleCriminality = ["0</br>Not criminal at all", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100</br>Totally criminal"];
 
   var CSrating = [];
-  CS.map(function(ciImg){
+  CS.map(function(stims){
     var likert_trial = {
         type: 'survey-likert',
-        preamble: ciImg.imgHtml,
+        preamble: stims.imgHtml,
         questions: [
           {prompt: "", labels: scaleAgressivity, required: true},
           {prompt: "", labels: scaleTrustworthiness, required: true},
           {prompt: "", labels: scaleCriminality, required: true},
         ],
-        randomize_question_order: true,
         button_label: 'Continue',
         on_load: function() {
-          window.scrollTo(0, 0);
           $(".jspsych-content").css("max-width", "100%");
-          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
           $(".jspsych-survey-likert-opts").css("padding", "0 0 10px");
           $("#jspsych-survey-likert-next").css("margin-top", "10px");
           $("#jspsych-survey-likert-form").css("width", "800px");
           $("li").css("width", "9%");
+        //   $("li:first-of-type").css("width", "110px");
+        //   $("li:last-of-type").css("width", "110px");
         },
         on_finish: function(data) {
           var parsed_response  = JSON.parse(data.responses);
           data.agressivity     = parsed_response.Q0 * 10;
           data.trustworthiness = parsed_response.Q1 * 10;
           data.criminality     = parsed_response.Q2 * 10;
-          data.CSback              = ciImg.imgHtml;
+          data.stims              = stims.imgHtml;
         },
     };
     CSrating.push(likert_trial);
   });
-
- /* AGE */
-  var age = {
-      timeline: [{
-        type: 'survey-text',
-        questions: [{prompt: "How old are you?", rows: 1, columns: 10}],
-        button_label: "Continue",
-      }],
-      on_load: function() {
-          window.scrollTo(0, 0);
-          $(".jspsych-content").css("margin-top", "200px");
-          $(".jspsych-content").css("max-width", "90%");
-        },
-      loop_function: function(data){ 
-        var age = data.values()[0].responses;
-        var age = JSON.parse(age).Q0; 
-        if(age == ""){
-          alert("Please indicate your age"); 
-          return true; 
-        }
-      },
-      on_finish: function(data) {
-          jsPsych.data.addProperties({
-              age: JSON.parse(data.responses)["Q0"],
-          });
-      },
-  };
-
-  var gender = {
-      type: 'survey-multi-choice',
-      questions: [{prompt: "Please indicate your gender:", options: ['Male', 'Female', 'Other'], required: true}],
-      button_label: "Continue",
-      on_finish: function(data) {
-          jsPsych.data.addProperties({
-              gender: JSON.parse(data.responses)["Q0"],
-          });
-      },
-  };
-
-  var languageOptions = ['Native speaker', 'Very well', 'Well', 'Average', 'Badly', 'Very badly'];
-  var language = {
-        type: 'survey-multi-choice',
-        questions: [{ prompt: "How well do you speak english?", options: languageOptions, required: true }],
-        button_label: "continue",
-        on_finish: function (data) {
-            jsPsych.data.addProperties({
-                language: JSON.parse(data.responses).Q0,
-            });
-            console.log(data);
-        },
-    };
-
-  var Prolific_reported = {
-        timeline: [{
-            type: 'survey-text',
-            questions: [{ prompt: 'Please indicate your Prolific ID:', rows: 3, columns: 60 }],
-            button_label: "continue",
-        }],
-        loop_function: function (data) {
-            var res = data.values()[0].responses;
-            var res = JSON.parse(res).Q0;
-            if (res == "") {
-                alert("Please answer the question");
-                return true;
-            }
-        },
-        on_finish: function (data) {
-            jsPsych.data.addProperties({
-                Prolific_reported: JSON.parse(data.responses).Q0,
-            });
-        },
-    };
-
-  var comments = {
-        timeline: [{
-            type: 'survey-text',
-            questions: [{ prompt: 'Do you have comments regarding this study? [Optional]', rows: 3, columns: 60 }],
-            button_label: "continue",
-        }],
-        on_finish: function (data) {
-            jsPsych.data.addProperties({
-                Comment: JSON.parse(data.responses).Q0,
-            });
-        },
-    };
 
 
   /* TIMELINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -502,7 +404,6 @@
       jsPsych.data.addProperties({
         jspsych_id: jspsych_id,
         prolificID: prolificID,
-        gender_stim: gender_stim,
         //groupColor: groupColor,
         USCSpairing: USCSpairing
       });
