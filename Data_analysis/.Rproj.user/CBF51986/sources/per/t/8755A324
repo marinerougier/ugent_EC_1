@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1559032167725.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2564051438",
+    "id" : "8755A324",
+    "lastKnownWriteTime" : 1559033695,
+    "last_content_update" : 1559033695702,
+    "path" : "C:/Users/matschmitz/Google Drive/R/Marine/readECdata.R",
+    "project_path" : "readECdata.R",
+    "properties" : {
+        "cursorPosition" : "18,54",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

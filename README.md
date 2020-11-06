@@ -1,1 +1,1 @@
-# ugent_EC_1
+# EC
