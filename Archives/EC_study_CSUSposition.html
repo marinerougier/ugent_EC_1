@@ -251,7 +251,6 @@
     choices: [32],
     stimulus: function() {
       var html = "";
-      html += "<h1>Before starting...</h1>";
       html += "<p class='justify'>You can quit the study at any time by closing the browser window. However, please be aware ";
       html += "that this will <b>end your participation</b>. If you are certain that you want to quit or encounter technical issues ";
       html += "that force you to quit, <b>you can still receive a partial reward proportionate to the time you actually spent</b> on ";
@@ -335,7 +334,7 @@
     timeline: [{
       type: 'html-keyboard-response',
       stimulus: function () {
-        if (CSposition == "LEFT") {
+        if (jsPsych.timelineVariable('CSposition', true) == "LEFT") {
           var leftImg = jsPsych.timelineVariable('CS', true);
           var rightImg = jsPsych.timelineVariable('US', true);
         } else {
@@ -376,8 +375,9 @@
   };
 
 // Judgments
+  //var CSback = []
   CSjudge = CS.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
-  CSjudge = _.shuffle(CSjudge); // randomize order
+  //CSback = _.shuffle(CSback); // randomize order
 
    // Judgments on various dimensions
 
@@ -691,11 +691,8 @@
   debrief += "individuals tend to attribute many positive qualities to attractive persons. For instance, when a person is attractive, "; 
   debrief += "people tend to think that s/he is also trustworthy.<br><br>";
   debrief += "Our goal is to test if we can find a similar effect (that is called the “attractiveness Halo effect”) in the present study "; 
-  debrief += "with our procedure. Indeed, in the present study, we presented you faces varying on attractiveness (e.g., on the left) "; 
-  debrief += "on one side of the screen, paired with faces relatively neutral on attractiveness on the other side (e.g., on the right). ";
-  debrief += "Our hypothesis was thus that the attractiveness value of the attractive/less attractive face should influence the ";
-  debrief += "perceived attractiveness of the other face in the pair. Therefore, participants’ evaluations of the initially neutral faces "; 
-  debrief += "should vary as a function of the physical attractiveness of the faces they were paired with. <br><br>";
+  debrief += "with our set of pictures and our set of personality traits/outcomes. Our hypothesis was thus that the positivity of "; 
+  debrief += "participants’ evaluations should increase as a function of the physical attractiveness of the faces. <br><br>";
   debrief += "We would like to emphasize that there are no correct responses in this study: We were looking at people’s natural responses. ";
   debrief += "We hope you understand that we couldn't tell you all of this before because it would have ruined our study. ";
   debrief += "Again, your responses will be anonymous and will be analyzed as part of a group of responses.</br></br>";
@@ -710,7 +707,7 @@
 
   /* TIMELINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   timeline.push(activeFullscreen);
-  timeline.push(consent);
+  //timeline.push(consent);
   timeline.push(Quit_expe);
   timeline.push(Instr_gene1);
   timeline.push(Instr_gene2);
@@ -744,7 +741,7 @@
       /* Initialize Firebase */
       var config = {
         apiKey: "AIzaSyAPTEPrT8V9T1-GouWXnW6jknK3brmagJs",
-        databaseURL: "https://postdocgent.firebaseio.com/"
+        databaseURL: "https://vaastiat.firebaseio.com/"
       };
 
       firebase.initializeApp(config);
@@ -769,6 +766,7 @@
       database.ref("EC_halo_1/" + id + "/").update({subdata}).then(function() { 
         console.log("data sent!");
         $("#jspsych-content").html(debrief);
+        //window.location = qlink; // redirect to qualtrics
       });
     }
   });

@@ -51,15 +51,7 @@
       left:40%;
       z-index: 2;
   }
-    .imgBack {
-      position: fixed;
-      width: 70%; 
-      margin: 0px;
-      padding: 0px;
-      top: 0px;
-      left:15%;
-      z-index: 2;
-  }
+
     .displayInstr {
       height: 130px;
     }
@@ -197,14 +189,7 @@
   var USCSpairing = CS + US;
 
   // fixed US-CS horizontal position
-  var CSposition = jsPsych.randomization.sampleWithoutReplacement(["LEFT", "RIGHT"], 1)[0];
-  //stims.map(function (e) { e.CSposition = _.sample(["LEFT", "RIGHT"])}); //to randomize : _.sample(["left", "right"])
-
-  if (CSposition == "LEFT") {
-      var USposition = "RIGHT";
-    } else {
-      var USposition = "LEFT";
-  };
+  stims.map(function (e) { e.CSposition = "left"}); //to randomize : _.sample(["left", "right"])
 
 
   /* EXPERIMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -243,81 +228,22 @@
       check_fn: check_consent
     };
 
-  /* General INSTRUCTIONS */
-
-  var Quit_expe = {
-    type: "html-keyboard-response",
+  /* Present paired US-CS */
+  var pairingInst = {
+    type: "html-button-response",
     post_trial_gap: 300,
-    choices: [32],
-    stimulus: function() {
+    choices: ['Continue'],
+    stimulus: function () {
       var html = "";
-      html += "<h1>Before starting...</h1>";
-      html += "<p class='justify'>You can quit the study at any time by closing the browser window. However, please be aware ";
-      html += "that this will <b>end your participation</b>. If you are certain that you want to quit or encounter technical issues ";
-      html += "that force you to quit, <b>you can still receive a partial reward proportionate to the time you actually spent</b> on ";
-      html += "the study. If this occurs, please take the following steps: Return the study via the Prolific study page as ";
-      html += "quickly as possible (please do not submit unless you have completed the study and received a completion code). ";
-      html += "Send a message to the researcher via the Prolific study page, stating that you completed part of the study ";
-      html += "(this will ensure that the researcher knows you should receive a partial reward). </br></br> ";
-      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to continue</p>";
+      html += "<h1>TASK 1</h1>";
+      html += "<p class = 'justify'>In the following task, ";
+      html += "you will be presented with a series of faces. <br>";
+      //html += "<center>These are the faces:<br> <img class='displayInstr' src='" + US_display + "'><br><br></center>";
+      html += "Bob and John will be paired with other faces. Your task is simply to <b>look carefully at ";
+      html += "all the faces (including Bob and John) presented on the screen.</b> ";
+      html += "The task will be automatically paced</p>";
       return html;
-    },
-  };
-  var Instr_gene1 = {
-    type: "html-keyboard-response",
-    post_trial_gap: 300,
-    choices: [32],
-    stimulus: function() {
-      var html = "";
-      html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Psychological studies have shown that <b>people do form detailed impressions of others "
-      html += "on the basis of a very few cues</b>. However, what determines the extent to which these impressions are generally ";
-      html += "accurate have not yet been completely identified. </br> </br> ";
-      html += "The purpose of the present study is to <b>compare your person perception accuracy (that is, the accuracy of an untrained ";
-      html += "person) with two other groups who had been trained in various interpersonal perception techniques</b>. These "
-      html += "groups are constituted of students in clinical psychology and professional clinical psychologists. </br></br>";
-      html += "Note that accuracy in person perception is a general ability varying among people. <b>Some individuals without training ";
-      html += "may be as accurate as some professional clinicians when making first-impression judgments based on noninterview material</b>. </br></br> ";
-      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to continue</p>";
-      return html;
-    },
-  };
-
-  var Instr_gene2 = {
-    type: "html-keyboard-response",
-    post_trial_gap: 300,
-    choices: [32],
-    stimulus: function() {
-      var html = "";
-      html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Standard sets of photographs will be used as the basis for personality inferences. "
-      html += "The individuals depicted in the photographs are part of a group of <b>college students who are currently enrolled ";
-      html += "in a longitudinal study of personality development scheduled to continue ";
-      html += "into adulthood.</b><br><br> Therefore, it will be possible to <b>assess the accuracy of your judgments </b>against information ";
-      html += "currently available on the persons as well as the forthcoming information. </br></br>"
-      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to continue</p>";
-      return html;
-    },
-  };
-
-  /* JUDGMENTS INSTRUCTIONS */
-  var Instr_gene3 = {
-    type: "html-keyboard-response",
-    post_trial_gap: 300,
-    choices: [32],
-    stimulus: function() {
-      var html = "";
-      html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Your specific task is to <b>report several judgments on 3 persons.</b> ";
-      html += "Before reporting your judgements, we will show you the faces of these persons, five times each. ";
-      html += "<p class='justify'><b>The 3 faces you will have to judge will always be presented on the <u>"+CSposition+"</u> of the screen, ";
-      html += "along with other faces (presented on the <u>"+USposition+"</u>). </b><br><br>";
-      html += "It is extremely important that you <b>look carefully at ";
-      html += "all the faces (i.e., both faces on the left and on the right) </b>presented on the screen. ";
-      html += "The faces will be automatically paced</p><br><br>";
-      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
-      return html;
-    },
+    }
   };
 
   /* Pairings */
@@ -327,7 +253,7 @@
     choices: jsPsych.NO_KEYS,
     trial_duration: delayTrial,
     post_trial_gap: delayIti,
-    repetitions: 1, // here, 5
+    repetitions: 5,
     on_load: function () {
       //$('body').css({ "cursor": "none" });
       $('.jspsych-content').css({ "max-width": "100%" });
@@ -335,7 +261,7 @@
     timeline: [{
       type: 'html-keyboard-response',
       stimulus: function () {
-        if (CSposition == "LEFT") {
+        if (jsPsych.timelineVariable('CSposition', true) == "left") {
           var leftImg = jsPsych.timelineVariable('CS', true);
           var rightImg = jsPsych.timelineVariable('US', true);
         } else {
@@ -357,27 +283,27 @@
     }]
   };
 
+
   /* JUDGMENTS INSTRUCTIONS */
   var Instr_CSrating = {
-    type: "html-keyboard-response",
+    type: "html-button-response",
     post_trial_gap: 300,
-    choices: [32],
-    stimulus: function() {
+    choices: ['Continue'],
+    stimulus: function () {
       var html = "";
-      html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Now, your task is to <b>report several judgments on the 3 persons you just saw on the left of the screen.</b> ";
-      html += "<p class='justify'>To do so, you will evaluate each person on <b>42 personality traits or personality outcomes. </b><br><br>";
-      html += "<b>Given that this study is on person perception, we are not interested in your tact, politeness, or other ";
-      html += "factors that are usually important in everyday life situations. </br>";
-      html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
-      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
+      html += "<h1>TASK 2</h1>";
+      html += "<p class='justify'>Now, your task is to evaluate Bob and John on a series of personality traits.</b> ";
+      html += "Specifically, you will have to evaluate to what extent Bob and John seem ";
+      html += "<b>aggressive, trustworthy</b> and <b>criminal</b> (from 0 = not at all to 100 = totally). </br> ";
+      html += "It is very important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
       return html;
     },
   };
 
 // Judgments
+  //var CSback = []
   CSjudge = CS.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
-  CSjudge = _.shuffle(CSjudge); // randomize order
+  //CSback = _.shuffle(CSback); // randomize order
 
    // Judgments on various dimensions
 
@@ -691,11 +617,8 @@
   debrief += "individuals tend to attribute many positive qualities to attractive persons. For instance, when a person is attractive, "; 
   debrief += "people tend to think that s/he is also trustworthy.<br><br>";
   debrief += "Our goal is to test if we can find a similar effect (that is called the “attractiveness Halo effect”) in the present study "; 
-  debrief += "with our procedure. Indeed, in the present study, we presented you faces varying on attractiveness (e.g., on the left) "; 
-  debrief += "on one side of the screen, paired with faces relatively neutral on attractiveness on the other side (e.g., on the right). ";
-  debrief += "Our hypothesis was thus that the attractiveness value of the attractive/less attractive face should influence the ";
-  debrief += "perceived attractiveness of the other face in the pair. Therefore, participants’ evaluations of the initially neutral faces "; 
-  debrief += "should vary as a function of the physical attractiveness of the faces they were paired with. <br><br>";
+  debrief += "with our set of pictures and our set of personality traits/outcomes. Our hypothesis was thus that the positivity of "; 
+  debrief += "participants’ evaluations should increase as a function of the physical attractiveness of the faces. <br><br>";
   debrief += "We would like to emphasize that there are no correct responses in this study: We were looking at people’s natural responses. ";
   debrief += "We hope you understand that we couldn't tell you all of this before because it would have ruined our study. ";
   debrief += "Again, your responses will be anonymous and will be analyzed as part of a group of responses.</br></br>";
@@ -710,11 +633,9 @@
 
   /* TIMELINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   timeline.push(activeFullscreen);
-  timeline.push(consent);
-  timeline.push(Quit_expe);
-  timeline.push(Instr_gene1);
-  timeline.push(Instr_gene2);
-  timeline.push(Instr_gene3);
+  //timeline.push(consent);
+ // timeline.push(Gene_Instr);
+  timeline.push(pairingInst);
   timeline.push(evacond);
   timeline.push(Instr_CSrating);
   timeline.push(CSrating);
@@ -744,7 +665,7 @@
       /* Initialize Firebase */
       var config = {
         apiKey: "AIzaSyAPTEPrT8V9T1-GouWXnW6jknK3brmagJs",
-        databaseURL: "https://postdocgent.firebaseio.com/"
+        databaseURL: "https://vaastiat.firebaseio.com/"
       };
 
       firebase.initializeApp(config);
@@ -769,6 +690,7 @@
       database.ref("EC_halo_1/" + id + "/").update({subdata}).then(function() { 
         console.log("data sent!");
         $("#jspsych-content").html(debrief);
+        //window.location = qlink; // redirect to qualtrics
       });
     }
   });
