@@ -309,9 +309,9 @@
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
       html += "<p class='justify'>Your specific task is to <b>report several judgments on 3 persons.</b> ";
-      html += "Before reporting your judgements, we will show you these persons five times each. ";
+      html += "Before reporting your judgements, we will show you these persons' faces five times each. ";
       html += "<p class='justify'><b>The 3 faces you will have to judge will always be presented on the <u>"+CSposition+"</u> of the screen, ";
-      html += "along with other faces (presented on the <u>"+USposition+"</u>). </b><br><br>";
+      html += "along with other faces that will be presented on the <u>"+USposition+"</u>. </b><br><br>";
       html += "It is extremely important that you <b><u>look carefully at ";
       html += "all the faces</u> (i.e., both faces on the left and faces on the right)</b>. ";
       html += "The faces will be automatically paced, please remain focused.</p><br><br>";
@@ -682,14 +682,14 @@
   debrief += "In some experiments, we cannot tell people everything about the experiment at the beginning because their responses would not be ";
   debrief += "natural. For example, if we told people what the point of the experiment was ahead of time, then some people might do whatever ";
   debrief += "it is they think we want them to do, just to be helpful. Other people might do the exact opposite of what they think we want "; 
-  debrief += "them to do, just to show us that we can't figure them out. When people are trying to second-guess what the experiment is "; 
-  debrief += "really about, and they behave a certain way because of it, our results gets messed up. That's because they aren't behaving "; 
+  debrief += "them to do, just to show us that we cannot figure them out. When people are trying to second-guess what the experiment is "; 
+  debrief += "really about, and they behave a certain way because of it, our results gets messed up. That is because they are not behaving "; 
   debrief += "like they naturally would in the real world. The whole point of this experiment is to find out how people would ";
   debrief += "naturally behave.<br><br>";
-  debrief += "Now we'd like to explain what we were trying to learn about with this study. First of all, you should know that the aim of "; 
+  debrief += "Now we would like to explain what we were trying to learn about with this study. First of all, you should know that the aim of "; 
   debrief += "this study was not to investigate your perception accuracy. Perception accuracy is not a real ability. Instead, our "; 
-  debrief += "aim was to test whether your judgment of the three persons you saw depended on their physical attractiveness. Indeed "; 
-  debrief += "individuals tend to attribute many positive qualities to attractive persons. For instance, when a person is attractive, "; 
+  debrief += "aim was to test whether your judgment of the three persons you saw depended on the physical attractiveness of the persons they were associated with. "; 
+  debrief += "Individuals tend to attribute many positive qualities to attractive persons. For instance, when a person is attractive, "; 
   debrief += "people tend to think that s/he is also trustworthy.<br><br>";
   debrief += "Our goal is to test if we can find a similar effect (that is called the “attractiveness Halo effect”) in the present study "; 
   debrief += "with our procedure. Indeed, in the present study, we presented you faces varying on attractiveness (on the "+USposition+") "; 
@@ -706,7 +706,7 @@
   debrief += "to gather all the data we need and to analyze them. <br><br>";
   debrief += "You can copy this code on Prolific: <b>68784134</b> ";
   debrief += "or you can click on the following link to validate your participation:</p>";
-  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=68784134' target='_blank'>click here</a>";
+  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=68784134' target='_blank'>click here</a><br><br>";
 
 
   /* TIMELINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -762,8 +762,8 @@
         totalTime: jsPsych.totalTime()
       });
 
-      var dataEC = data.filter({ task: 'evaCond' }).csv();
-      var dataCSratings = data.filter({ task: 'CSratings' }).csv();
+      var dataEC = data.filter({ task: 'evacond' }).csv();
+      var dataCSrating = data.filter({ task: 'CSrating' }).csv();
 
       /* Send data to Firebase */
       database
@@ -772,7 +772,7 @@
         .then(function () {
           database
             .ref("EC_halo_1/" + jspsych_id + "/")
-            .update({ dataCSratings })
+            .update({ dataCSrating })
             .then(function () {
               console.log("Data sent!");
               $("#jspsych-content").html(debrief);
