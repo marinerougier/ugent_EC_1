@@ -34,7 +34,7 @@
 
     .paringsImgsLeft,
     .paringsImgsRight {
-      height: 320px;
+      height: 200%;
       margin: 0px;
     }
 
@@ -349,7 +349,7 @@
       },
       on_finish: function (data) {
         $('.jspsych-content').css({ "max-width": "90%" });
-        data.cond = "evacond";
+        data.task = "evacond";
         data.CS = jsPsych.timelineVariable('CS', true);
         data.US = jsPsych.timelineVariable('US', true);
         data.CSposition = jsPsych.timelineVariable('CSposition', true);
@@ -535,6 +535,7 @@
         //   $("li:last-of-type").css("width", "110px");
         },
         on_finish: function(data) {
+          data.task = "CSrating";
           var parsed_response  = JSON.parse(data.responses);
           data.sociable      = parsed_response.Q0 * 10;
           data.funloving     = parsed_response.Q1 * 10;
@@ -758,7 +759,7 @@
         jspsych_id: jspsych_id,
         prolificID: prolificID,
         gender_stim: gender_stim,
-        USCSpairing: USCSpairing,
+        CSposition: CSposition,
         totalTime: jsPsych.totalTime()
       });
 
