@@ -309,12 +309,12 @@
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
       html += "<p class='justify'>Your specific task is to <b>report several judgments on 3 persons.</b> ";
-      html += "Before reporting your judgements, we will show you the faces of these persons, five times each. ";
+      html += "Before reporting your judgements, we will show you these persons five times each. ";
       html += "<p class='justify'><b>The 3 faces you will have to judge will always be presented on the <u>"+CSposition+"</u> of the screen, ";
       html += "along with other faces (presented on the <u>"+USposition+"</u>). </b><br><br>";
-      html += "It is extremely important that you <b>look carefully at ";
-      html += "all the faces (i.e., both faces on the left and on the right) </b>presented on the screen. ";
-      html += "The faces will be automatically paced</p><br><br>";
+      html += "It is extremely important that you <b><u>look carefully at ";
+      html += "all the faces</u> (i.e., both faces on the left and faces on the right)</b>. ";
+      html += "The faces will be automatically paced, please remain focused.</p><br><br>";
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
@@ -327,7 +327,7 @@
     choices: jsPsych.NO_KEYS,
     trial_duration: delayTrial,
     post_trial_gap: delayIti,
-    repetitions: 1, // here, 5
+    repetitions: 5, // here, 5
     on_load: function () {
       //$('body').css({ "cursor": "none" });
       $('.jspsych-content').css({ "max-width": "100%" });
@@ -365,7 +365,8 @@
     stimulus: function() {
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Now, your task is to <b>report several judgments on the 3 persons you just saw on the left of the screen.</b> ";
+      html += "<p class='justify'>Now, your task is to <b>report several judgments on the 3 persons that were presented on the <u>"+CSposition+"</u>";
+      html += " of the screen.</b> ";
       html += "<p class='justify'>To do so, you will evaluate each person on <b>42 personality traits or personality outcomes. </b><br><br>";
       html += "<b>Given that this study is on person perception, we are not interested in your tact, politeness, or other ";
       html += "factors that are usually important in everyday life situations. </br>";
@@ -691,8 +692,8 @@
   debrief += "individuals tend to attribute many positive qualities to attractive persons. For instance, when a person is attractive, "; 
   debrief += "people tend to think that s/he is also trustworthy.<br><br>";
   debrief += "Our goal is to test if we can find a similar effect (that is called the “attractiveness Halo effect”) in the present study "; 
-  debrief += "with our procedure. Indeed, in the present study, we presented you faces varying on attractiveness (e.g., on the left) "; 
-  debrief += "on one side of the screen, paired with faces relatively neutral on attractiveness on the other side (e.g., on the right). ";
+  debrief += "with our procedure. Indeed, in the present study, we presented you faces varying on attractiveness (on the "+USposition+") "; 
+  debrief += "on one side of the screen, paired with faces relatively neutral on attractiveness on the other side (on the "+CSposition+"). ";
   debrief += "Our hypothesis was thus that the attractiveness value of the attractive/less attractive face should influence the ";
   debrief += "perceived attractiveness of the other face in the pair. Therefore, participants’ evaluations of the initially neutral faces "; 
   debrief += "should vary as a function of the physical attractiveness of the faces they were paired with. <br><br>";
@@ -703,14 +704,14 @@
   debrief += "to withdraw consent and have your data excluded, do not hesitate to contact us via Prolific Academic. If you are "; 
   debrief += "interested, you can also ask for the results of this experiment—be aware, however, that this could take several weeks "; 
   debrief += "to gather all the data we need and to analyze them. <br><br>";
-  debrief += "You can copy this code on Prolific: <b>3AAB620D</b> ";
+  debrief += "You can copy this code on Prolific: <b>68784134</b> ";
   debrief += "or you can click on the following link to validate your participation:</p>";
-  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=3AAB620D' target='_blank'>click here</a>";
+  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=68784134' target='_blank'>click here</a>";
 
 
   /* TIMELINES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-  timeline.push(activeFullscreen);
   timeline.push(consent);
+  timeline.push(activeFullscreen);
   timeline.push(Quit_expe);
   timeline.push(Instr_gene1);
   timeline.push(Instr_gene2);
@@ -732,10 +733,12 @@
   jsPsych.init({
     timeline: timeline,
     preload_images: preloadimages,
-    max_load_time: 300 * 1000,
+    max_load_time: 500*1000,
     exclusions: {
-      min_width: 800,
+      min_width: 1100,
       min_height: 600,
+      max_width: 1600,
+      max_height: 900,
     },
     on_finish: function (data) {
       $("#jspsych-content").html("<img src='https://i.gifer.com/4V0b.gif'>");
@@ -750,26 +753,32 @@
       firebase.initializeApp(config);
       var database = firebase.database();
 
-      // if no id provided, generate a new id
-      // if (jspsych_id == null) { jspsych_id = jsPsych.randomization.randomID(15) };
-
       /* jsPsych: add data to every trial */
       jsPsych.data.addProperties({
         jspsych_id: jspsych_id,
         prolificID: prolificID,
         gender_stim: gender_stim,
-        //groupColor: groupColor,
-        USCSpairing: USCSpairing
+        USCSpairing: USCSpairing,
+        totalTime: jsPsych.totalTime()
       });
 
-      var dataEC = data.filter({ cond: 'evacond' }).csv();
+      var dataEC = data.filter({ task: 'evaCond' }).csv();
+      var dataCSratings = data.filter({ task: 'CSratings' }).csv();
 
       /* Send data to Firebase */
       database
-      database.ref("EC_halo_1/" + id + "/").update({subdata}).then(function() { 
-        console.log("data sent!");
-        $("#jspsych-content").html(debrief);
-      });
+        .ref("EC_halo_1/" + jspsych_id + "/")
+        .update({ dataEC })
+        .then(function () {
+          database
+            .ref("EC_halo_1/" + jspsych_id + "/")
+            .update({ dataCSratings })
+            .then(function () {
+              console.log("Data sent!");
+              $("#jspsych-content").html(debrief);
+              //setTimeout(jsPsych.data.displayData, 5000);
+            });
+        });
     }
   });
 </script>
