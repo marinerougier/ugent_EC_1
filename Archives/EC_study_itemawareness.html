@@ -33,18 +33,23 @@
       height: 10000px;
     }
 
-    .paringsImgs {
-      height: 150%;
+    .paringsImgsLeft,
+    .paringsImgsRight {
+      height: 200%;
       margin: 0px;
+    }
+
+    .paringsImgsLeft {
+      margin-right: 10px;
     }
 
     .imgJudge {
       position: fixed;
-      width: 15%; 
+      width: 20%; 
       margin: 0px;
       padding: 0px;
       top: 0px;
-      left:41%;
+      left:40%;
       z-index: 2;
   }
     .imgBack {
@@ -55,10 +60,6 @@
       top: 0px;
       left:15%;
       z-index: 2;
-  }
-
-    .imgitemMemo {
-      width: 50%; 
   }
     .displayInstr {
       height: 130px;
@@ -147,12 +148,6 @@
 
   // preload
   preloadimages.push(CS_Neut_fem, CS_Neut_male, US_fem, US_male);
-
-  // randomize order
-  CS_Neut_fem = _.shuffle(CS_Neut_fem);
-  CS_Neut_male = _.shuffle(CS_Neut_male);
-  US_male = _.shuffle(US_male);
-  US_fem = _.shuffle(US_fem);
 
   // randomly assigning either the female or the male list 
   var gender_stim = jsPsych.randomization.sampleWithoutReplacement(["male", "female"], 1)[0];
@@ -303,9 +298,9 @@
       html += "<h1>Study of accuracy in person perception</h1>";
       html += "<p class='justify'>Your specific task is to <b>report several judgments on various persons.</b> ";
       html += "Before reporting your judgements, we will show you these persons' faces on the screen. ";
-      html += "It is extremely important that you <b>look carefully at ";
-      html += "all the faces that will appear on the screen. </b>";
-      html += "The faces will be automatically paced, please remain focused and watch them carefully.</p><br><br>";
+      html += "It is extremely important that you <b><u>look carefully at ";
+      html += "all the faces</u> (i.e., both faces on the left and faces on the right)</b>. ";
+      html += "The faces will be automatically paced, please remain focused.</p><br><br>";
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
@@ -313,27 +308,27 @@
 
 
    /* test trials */
-    var display_CS = {
-      type: "image-keyboard-response",
-      stimulus: jsPsych.timelineVariable('CS'),
-      choices: jsPsych.NO_KEYS,
-      trial_duration: 2000, // time of CS presentation (based on Walther, 2002)
-      post_trial_gap: 2000, //interval between the CS and the US (based on Walther, 2002)
-    }
 
     var display_US = {
       type: 'image-keyboard-response',
       stimulus: jsPsych.timelineVariable('US'),
       choices: jsPsych.NO_KEYS,
-      trial_duration: 2000, // time of US presentation (based on Walther, 2002)
-      post_trial_gap: 4000, //interval between the pairs (based on Walther, 2002)
+      trial_duration: 2500
+    }
+
+    var display_CS = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('CS'),
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 2500,
+      post_trial_gap: 1000,
     }
 
     var evacond = {
-      timeline: [display_CS, display_US],
+      timeline: [display_US, display_CS],
       timeline_variables: stims,
       randomize_order: true,
-      repetitions: 5, // number of pairs presentation (based on Walther, 2002)
+      repetitions: 5,
       on_finish: function (data) {
         $('.jspsych-content').css({ "max-width": "90%" });
         data.task = "evacond";
@@ -351,7 +346,7 @@
     stimulus: function() {
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>In this part of the study, your task is to <b>report several judgments on three persons that were previously presented.</b> ";
+      html += "<p class='justify'>Now, your task is to <b>report several judgments on 3 persons that were presented previously.</b> ";
       html += "<p class='justify'>To do so, you will evaluate each person on <b>42 personality traits or personality outcomes. </b><br><br>";
       html += "<b>Given that this study is on person perception, we are not interested in your tact, politeness, or other ";
       html += "factors that are usually important in everyday life situations. </br>";
@@ -579,7 +574,7 @@
     stimulus: function() {
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>Now, we will ask you to rate all the faces that you saw in the first phase of the study on their <b>physical attractiveness</b>.<br><br> ";
+      html += "<p class='justify'>Now, we will ask you to rate all the faces that you saw on their <b>physical attractiveness</b>.<br><br> ";
       html += "<b>Again, remember that we are not interested in your tact, politeness, or other ";
       html += "factors that are usually important in everyday life situations. </br>";
       html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
@@ -644,7 +639,7 @@ USCSjudge.map(function(ciImg){
     stimulus: function() {
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
-      html += "<p class='justify'>In this last part, we will ask you about the <b>type of faces that were often paired together (i.e., shown one after the other) </b>in the first phase of the study.<br><br> ";
+      html += "<p class='justify'>Now, we will ask you to report which face was preceded by which face. <br><br> ";
       html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
@@ -663,14 +658,14 @@ CSjudge.map(function(ciImg){
         type: 'survey-multi-choice',
         preamble: "<img class='imgBack' src='Stim_background/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: [
-          {prompt: "This face was paired with (i.e., followed by)...",  options: ['an attractive other face', 'an unattractive other face','a medium attractive other face'], required: true},
+          {prompt: "This face was always preceded by...",  options: ['...a physically attractive face', '...a face relatively medium on physical attractiveness','...a physically unattractive face'], required: true},
         ],
         randomize_question_order: true, /// !!!! does not work
         button_label: 'Continue',
         on_load: function() {
           window.scrollTo(0, 0);
           $(".jspsych-content").css("max-width", "100%");
-          $(".jspsych-content").css("margin-top", "350px");
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
           $(".jspsych-survey-likert-opts").css("padding", "0 0 10px");
@@ -692,8 +687,41 @@ CSjudge.map(function(ciImg){
   });
 
 
- // definiting two different response scales that can be used.
-  var page_1_options = ["<img class='imgitemMemo' src='"+US[0]+"'>", "<img class='imgitemMemo' src='"+US[1]+"'>", "<img class='imgitemMemo' src='"+US[2]+"'>"];
+
+  var item_awareness = {
+    timeline_variables: stims,
+    randomize_order: true,
+    choices: ['1', '2', '3'],,
+    on_load: function () {
+      //$('body').css({ "cursor": "none" });
+      $('.jspsych-content').css({ "max-width": "100%" });
+    },
+    timeline: [{
+      type: 'html-keyboard-response',
+      stimulus: function () {
+          var CS_Img = jsPsych.timelineVariable('CS', true);
+          var US_Img1 = jsPsych.timelineVariable('US[0]', true);
+          var US_Img2 = jsPsych.timelineVariable('US[1]', true);
+          var US_Img3 = jsPsych.timelineVariable('US[2]', true);
+
+        html = '';
+        html += "<img class='paringsImgsLeft' src='" + CS_Img + "'>";
+        html += "<img class='paringsImgsRight' src='" + US_Img1 + "'>";
+        html += "<img class='paringsImgsRight' src='" + US_Img2 + "'>";
+        html += "<img class='paringsImgsRight' src='" + US_Img3 + "'>";
+        return html;
+      },
+      on_finish: function (data) {
+        $('.jspsych-content').css({ "max-width": "90%" });
+        data.task = "evacond";
+        data.CS = jsPsych.timelineVariable('CS', true);
+        data.US1 = jsPsych.timelineVariable('US[0]', true);
+        data.US2 = jsPsych.timelineVariable('US[1]', true);
+        data.US3 = jsPsych.timelineVariable('US[2]', true);
+      },
+    }]
+  };
+
 
 
 // Judgments on attractiveness
@@ -703,28 +731,28 @@ CSjudge.map(function(ciImg){
         type: 'survey-multi-choice',
         preamble: "<img class='imgBack' src='Stim_background/Fond_blanc.jpeg'>" + ciImg.imgHtml,
         questions: [
-          {prompt: "Indicate which of the three face presented below went together with this face:",  options: page_1_options, required: true, horizontal: true,},
+          {prompt: "This face was always preceded by... US[0]",  options: ["1", "2"], required: true},
         ],
         randomize_question_order: true, /// !!!! does not work
         button_label: 'Continue',
         on_load: function() {
           window.scrollTo(0, 0);
           $(".jspsych-content").css("max-width", "100%");
-          $(".jspsych-content").css("margin-top", "350px");
+          $(".jspsych-content").css("margin-top", "430px");
           $(".jspsych-survey-likert-statement").css("margin", "0px");
           $(".jspsych-survey-likert-statement").css("padding", "0px");
           $(".jspsych-survey-likert-opts").css("padding", "0 0 10px");
           $("#jspsych-survey-likert-next").css("margin-top", "10px");
-          //$("#jspsych-survey-likert-form").css("width", "800px");
+          $("#jspsych-survey-likert-form").css("width", "800px");
           $("li").css("width", "9%");
         //   $("li:first-of-type").css("width", "110px");
         //   $("li:last-of-type").css("width", "110px");
         },
         on_finish: function(data) {
-          data.task = "CSitem_awareness";
+          data.task = "CScategory_awareness";
           var parsed_response  = JSON.parse(data.responses);
           data.itemMemory    = parsed_response.Q0;
-          data.facejudged    = ciImg.imgHtml
+          data.facejudged    = ciImg.imgHtml;
           //data.faceattract              = ciImg.imgHtml;
         },
     };
@@ -869,8 +897,7 @@ CSjudge.map(function(ciImg){
   //timeline.push(CSrating);
   timeline.push(attractiveness_instr);
   //timeline.push(judgments_attractiveness);
-  timeline.push(memory_instr);
-  timeline.push(category_awareness);
+  //timeline.push(category_awareness);
   timeline.push(item_awareness);
   timeline.push(age);
   timeline.push(gender);
@@ -917,8 +944,6 @@ CSjudge.map(function(ciImg){
       var dataEC = data.filter({ task: 'evacond' }).csv();
       var dataCSrating = data.filter({ task: 'CSrating' }).csv();
       var dataUSCSattractiveness = data.filter({ task: 'USCSattractiveness' }).csv();
-      var dataCScatawareness = data.filter({ task: 'CScategory_awareness' }).csv();
-      var dataCSitemawareness = data.filter({ task: 'CSitem_awareness' }).csv();
 
       /* Send data to Firebase */
       database
@@ -933,19 +958,9 @@ CSjudge.map(function(ciImg){
         .ref("EC_halo_1/" + jspsych_id + "/")
         .update({ dataUSCSattractiveness })
         .then(function () {
-      database
-        .ref("EC_halo_1/" + jspsych_id + "/")
-        .update({ dataCScatawareness })
-        .then(function () {
-      database
-        .ref("EC_halo_1/" + jspsych_id + "/")
-        .update({ dataCSitemawareness })
-        .then(function () {
               console.log("Data sent!");
               $("#jspsych-content").html(debrief);
               //setTimeout(jsPsych.data.displayData, 5000);
-                });
-              });
             });
           });
         });
