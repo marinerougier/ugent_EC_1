@@ -582,7 +582,7 @@
       html += "<p class='justify'>Now, we will ask you to rate all the faces that you saw in the first phase of the study on their <b>physical attractiveness</b>.<br><br> ";
       html += "<b>Again, remember that we are not interested in your tact, politeness, or other ";
       html += "factors that are usually important in everyday life situations. </br>";
-      html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
+      html += "It is extremely important that you try to answer <b> as honestly and as accurately as possible.</b></br></br>";
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
@@ -645,7 +645,7 @@ USCSjudge.map(function(ciImg){
       var html = "";
       html += "<h1>Study of accuracy in person perception</h1>";
       html += "<p class='justify'>In this last part, we will ask you about the <b>type of faces that were often paired together (i.e., shown one after the other) </b>in the first phase of the study.<br><br> ";
-      html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
+      html += "It is extremely important that you try to answer <b> as honestly and as accurately as possible.</b></br></br>";
       html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
       return html;
     },
@@ -657,6 +657,7 @@ USCSjudge.map(function(ciImg){
   };
 
 // Judgments on attractiveness
+/*
 var category_awareness = [];
 CSjudge.map(function(ciImg){
     var likert_trial = {
@@ -690,7 +691,7 @@ CSjudge.map(function(ciImg){
     };
     category_awareness.push(likert_trial);
   });
-
+*/
 
  // definiting two different response scales that can be used.
   var page_1_options = ["<img class='imgitemMemo' src='"+US[0]+"'>", "<img class='imgitemMemo' src='"+US[1]+"'>", "<img class='imgitemMemo' src='"+US[2]+"'>"];
@@ -751,6 +752,28 @@ CSjudge.map(function(ciImg){
             });
         },
     };
+
+  var feature_awareness = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Did you notice that during the first task (when the faces we automatically displayed), the presented faces varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              feature_awareness: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
+
+  var influence_awareness = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment on the personality traits/outcomes?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              influence_awareness: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
 
   var demand_compliance = {
       type: 'survey-multi-choice',
@@ -901,9 +924,11 @@ CSjudge.map(function(ciImg){
   timeline.push(attractiveness_instr);
   timeline.push(judgments_attractiveness);
   timeline.push(memory_instr);
-  timeline.push(category_awareness);
+  //timeline.push(category_awareness);
   timeline.push(item_awareness);
   timeline.push(demand_awareness);
+  timeline.push(feature_awareness);
+  timeline.push(influence_awareness);
   timeline.push(demand_compliance);
   timeline.push(age);
   timeline.push(gender);
