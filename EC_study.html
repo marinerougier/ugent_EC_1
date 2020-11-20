@@ -755,7 +755,7 @@ CSjudge.map(function(ciImg){
 
   var feature_awareness = {
       type: 'survey-multi-choice',
-      questions: [{prompt: "Did you notice that during the first task (when the faces we automatically displayed), the presented faces varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      questions: [{prompt: "During the first task (when the faces we automatically displayed), did you notice that the presented faces varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
       on_finish: function(data) {
           jsPsych.data.addProperties({
@@ -766,7 +766,7 @@ CSjudge.map(function(ciImg){
 
   var influence_awareness = {
       type: 'survey-multi-choice',
-      questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment on the personality traits/outcomes?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment <u>on the personality traits/outcomes?</u>", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
       on_finish: function(data) {
           jsPsych.data.addProperties({
@@ -777,7 +777,7 @@ CSjudge.map(function(ciImg){
 
   var demand_compliance = {
       type: 'survey-multi-choice',
-      questions: [{prompt: "Earlier, we asked you to evaluate faces (on various traits/outcomes and attractiveness). Did you tell us the truth about how you evaluated the faces? Or did you just fake your response (i.e., tell us what you thought we wanted to hear)? Please be honest here (it will not affect payment in any way.", options: ['Yes - I faked my response based on what I thought the researchers wanted to find', 'No - my responses were based on how I genuinely felt', 'I do not know'], required: true}],
+      questions: [{prompt: "When we asked you to evaluate the faces, did you tell us the truth?  Or did you just fake your response (i.e., tell us what you thought we wanted to hear)? Please be honest here (it will not affect payment in any way.", options: ['Yes - I faked my response based on what I thought the researchers wanted to find', 'No - my responses were based on how I genuinely felt', 'I do not know'], required: true}],
       button_label: "Continue",
       on_finish: function(data) {
           jsPsych.data.addProperties({
