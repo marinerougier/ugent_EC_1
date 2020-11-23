@@ -989,7 +989,6 @@ CSjudge.map(function(ciImg){
       var dataEC = data.filter({ task: 'evacond' }).csv();
       var dataCSrating = data.filter({ task: 'CSrating' }).csv();
       var dataUSCSattractiveness = data.filter({ task: 'USCSattractiveness' }).csv();
-      var dataCScatawareness = data.filter({ task: 'CScategory_awareness' }).csv();
       var dataCSitemawareness = data.filter({ task: 'CSitem_awareness' }).csv();
 
       /* Send data to Firebase */
@@ -1007,10 +1006,6 @@ CSjudge.map(function(ciImg){
         .then(function () {
       database
         .ref("EC_halo_1/" + jspsych_id + "/")
-        .update({ dataCScatawareness })
-        .then(function () {
-      database
-        .ref("EC_halo_1/" + jspsych_id + "/")
         .update({ dataCSitemawareness })
         .then(function () {
               console.log("Data sent!");
@@ -1020,7 +1015,6 @@ CSjudge.map(function(ciImg){
               });
             });
           });
-        });
     }
   });
 </script>
