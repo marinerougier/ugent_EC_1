@@ -757,6 +757,11 @@ CSjudge.map(function(ciImg){
       type: 'survey-multi-choice',
       questions: [{prompt: "During the first task, the faces were always displayed as pairs (one face following the other). Did you notice that the faces that were presented in second position in each pair varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               feature_awareness: JSON.parse(data.responses)["Q0"],
@@ -768,6 +773,11 @@ CSjudge.map(function(ciImg){
       type: 'survey-multi-choice',
       questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment of the other face on the personality traits/outcomes?", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               influence_awareness: JSON.parse(data.responses)["Q0"],
@@ -779,6 +789,11 @@ CSjudge.map(function(ciImg){
       type: 'survey-multi-choice',
       questions: [{prompt: "When we asked you to evaluate the faces on the personality traits/outcomes, did you tell us the truth about what you think? Or did you just fake your response (i.e., tell us what you thought we wanted to hear)? Please be honest here (it will not affect payment in any way).", options: ['Yes - I faked my response based on what I thought the researchers wanted to find', 'No - my responses were based on how I genuinely felt', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               demand_compliance: JSON.parse(data.responses)["Q0"],
@@ -924,7 +939,6 @@ CSjudge.map(function(ciImg){
   timeline.push(attractiveness_instr);
   timeline.push(judgments_attractiveness);
   timeline.push(memory_instr);
-  //timeline.push(category_awareness);
   timeline.push(item_awareness);
   timeline.push(demand_awareness);
   timeline.push(feature_awareness);
